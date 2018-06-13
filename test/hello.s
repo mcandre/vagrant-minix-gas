@@ -1,24 +1,43 @@
 .global _start
 
-.section .rodata
+.section .data
 
-msg: .ascii "Hello World!\n"
+banner: .ascii "Hello World!\n"
 
-.equ msg_len, 26
-.equ kernel, 0x80
+.equ banner_len, .-banner
+.equ kernel, 0x21
+.equ sendrec, 3
+.equ fs, 1
+.equ mm, 0
+.equ write, 0x101
+.equ stdout, 1
+.equ exit, 0x1
+.equ status, 0
+
+msg_write:
+  .long 0
+  .long write
+  .long stdout
+  .long banner
+  .long banner_len
+  .long 0
+  .space 40
+
+msg_exit:
+  .long 0
+  .long exit
+  .long status
+  .space 16
 
 .section .text
 
 _start:
-  # write message
-  # ...
+  mov $fs, %eax
+  mov $msg_write, %ebx
+  mov $sendrec, %ecx
+  int $kernel
 
-  # _exit(0) #
-  and $0xfffffff0, %esp
-  sub $0x40, %esp
-  movl $0, 0x18(%esp) /* exit status */
-  lea 0x10(%esp), %ebx
-  movl $1, 0x04(%ebx)  /* EXIT in include/minix/callnr.h */
-  movl $0, %eax        /* PM_PROC_NR in include/minix/com.h */
-  movl $0x3, %ecx      /* SENDREC in include/minix/ipcconst.h */
-  int $33
+  mov $mm, %eax
+  mov $msg_exit, %ebx
+  mov $sendrec, %ecx
+  int $kernel
