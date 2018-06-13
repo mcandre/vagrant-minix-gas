@@ -1,6 +1,6 @@
 .global _start
 
-.section .data
+.section .rodata
 
 banner: .ascii "Hello World!\n"
 
@@ -13,6 +13,8 @@ banner: .ascii "Hello World!\n"
 .equ stdout, 1
 .equ exit, 0x1
 .equ status, 0
+
+.section .data
 
 msg_write:
   .long 0
