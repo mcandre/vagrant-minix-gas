@@ -13,7 +13,7 @@ https://app.vagrantup.com/mcandre/boxes/vagrant-minix-gas
 ```console
 $ vagrant up
 $ vagrant ssh -c "cd /vagrant && as -o hello.o hello.s && ld -o hello hello.o && strip -x hello && ./hello"
-...
+Hello World!
 ```
 
 # RUNTIME REQUIREMENTS
