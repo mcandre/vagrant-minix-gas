@@ -27,7 +27,7 @@ msg_exit:
   .long 0
   .long exit
   .long status
-  .space 16
+  .space 52
 
 .section .text
 
